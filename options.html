@@ -1,95 +1,56 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
+<!doctype html>
+<html lang="en" class="dark">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title></title>
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/bootstrap-slider.min.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="js/vue.js"></script>
+    <link rel="stylesheet" href="css/index.css"/>
+    <script src="js/element-plus.js"></script>
+    <title>设置</title>
 </head>
 <body>
-<div class="container">
-    <form class="form-horizontal">
-        <div class="form-group">
-            <label for="rate" class="col-sm-2 control-label">朗读速率</label>
-            <div class="col-sm-10">
-                <input type="range" name="rate" id="rate" data-slider-min="0.1" data-slider-max="10.0"
-                       data-slider-step="0.1" data-slider-value="1">
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="pitch" class="col-sm-2 control-label">声调</label>
-            <div class="col-sm-10">
-                <input type="range" name="pitch" id="pitch" data-slider-min="0" data-slider-max="2"
-                       data-slider-step="0.1" data-slider-value="1">
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="volume" class="col-sm-2 control-label">音量</label>
-            <div class="col-sm-10">
-                <input type="range" name="volume" id="volume" data-slider-min="0" data-slider-max="1"
-                       data-slider-step="0.01" data-slider-value="1">
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="voiceName" class="col-sm-2 control-label">声音</label>
-            <div class="col-sm-10">
-                <select name="voiceName" class="form-control" id="voiceName">
-                    <option value="Microsoft Huihui - Chinese (Simplified, PRC)">Microsoft Huihui - Chinese (Simplified, PRC)</option>
-					<option value="Microsoft Kangkang - Chinese (Simplified, PRC)">Microsoft Kangkang - Chinese (Simplified, PRC)</option>
-					<option value="Microsoft Yaoyao - Chinese (Simplified, PRC)">Microsoft Yaoyao - Chinese (Simplified, PRC)</option>
-					<option value="Google Deutsch">Google Deutsch</option>
-					<option value="Google US English">Google US English</option>
-					<option value="Google UK English Female">Google UK English Female</option>
-					<option value="Google UK English Male">Google UK English Male</option>
-					<option value="Google español">Google español</option>
-					<option value="Google español de Estados Unidos">Google español de Estados Unidos</option>
-					<option value="Google français">Google français</option>
-					<option value="Google हिन्दी">Google हिन्दी</option>
-					<option value="Google Bahasa Indonesia">Google Bahasa Indonesia</option>
-					<option value="Google italiano">Google italiano</option>
-					<option value="Google 日本語">Google 日本語</option>
-					<option value="Google 한국의">Google 한국의</option>
-					<option value="Google Nederlands">Google Nederlands</option>
-					<option value="Google polski">Google polski</option>
-					<option value="Google português do Brasil">Google português do Brasil</option>
-					<option value="Google русский">Google русский</option>
-					<option value="Google 普通话（中国大陆）">Google 普通话（中国大陆）</option>
-					<option value="Google 粤語（香港）">Google 粤語（香港）</option>
-					<option value="Google 國語（臺灣）">Google 國語（臺灣）</option>
-                </select>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="gender" class="col-sm-2 control-label">性别</label>
-            <div class="col-sm-10">
-                <select name="gender" class="form-control" id="gender">
-                    <option value="male">男</option>
-                    <option value="female">女</option>
-                </select>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="test" class="col-sm-2 control-label">测试语音</label>
-            <div class="col-sm-10">
-                <input type="text" name="test" class="form-control" id="test" value="这是一段测试语音">
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" id="submit" class="btn btn-default">保存</button>
-                <button type="button" id="subtest" class="btn btn-default">测试</button>
-            </div>
-        </div>
-    </form>
+<div id="app">
+    <el-card style="max-width: 700px;margin: 50px auto">
+        <template #header>设置</template>
+        <el-form :model="form" label-width="auto"  label-position="left">
+            <el-form-item label="朗读速率">
+                <el-slider :min="0" :max="10" :step="0.1" v-model="form.rate"></el-slider>
+            </el-form-item>
+            <el-form-item label="声调">
+                <el-slider :min="0" :max="2" :step="0.1" v-model="form.pitch"></el-slider>
+            </el-form-item>
+            <el-form-item label="音量">
+                <el-slider v-model="form.volume"></el-slider>
+            </el-form-item>
+            <el-form-item label="声音">
+                <el-select v-model="form.voice">
+                    <el-option
+                            v-for="(item,index) in voices"
+                            :label="item.name"
+                            :value="index"
+                            :disabled="!item.localService"
+                    ></el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="性别">
+                <el-select v-model="form.gender">
+                    <el-option label="男" value="male"></el-option>
+                    <el-option label="女" value="female"></el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="测试语音">
+                <el-input v-model="form.test"></el-input>
+            </el-form-item>
+            <el-form-item label=" ">
+                <el-button type="primary" @click="onSubmit">保存</el-button>
+                <el-button type="primary" @click="test">测试</el-button>
+            </el-form-item>
+        </el-form>
+    </el-card>
 </div>
-<script src="js/jquery.min.js"></script>
-<script src="js/jquery.form.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/bootstrap-slider.min.js"></script>
-<script type="text/javascript" src="js/options.js"></script>
+
+<script src="js/options.js"></script>
 </body>
 </html>
-

@@ -20,24 +20,27 @@ function speak(selection) {
  * @param utterance
  */
 function tts_speak(utterance) {
-    var options = JSON.parse(localStorage.getItem("options"));
+	window.speechSynthesis.cancel()
+    const speechInstance = new window.SpeechSynthesisUtterance(utterance);
+    const voices = window.speechSynthesis.getVoices()
+    let options = JSON.parse(localStorage.getItem("options"));
     if (!options) {
         options = {
-            'rate': 1,
-            'pitch': 1,
-            'volume': 1,
-            'gender': 'male',
-            'voiceName': 'Microsoft Huihui - Chinese (Simplified, PRC)',
+            rate: 1,
+            pitch: 1,
+            volume: 100,
+            voice: 0,
+            gender: 'male',
+            test: "这是一段测试语音"
         };
         localStorage.setItem("options", JSON.stringify(options));
     }
-    chrome.tts.speak(utterance, {
-        rate: parseFloat(options.rate),
-        pitch: parseFloat(options.pitch),
-        volume: parseFloat(options.volume),
-        gender: options.gender,
-        voiceName: options.voiceName
-    });
+    speechInstance.rate = options.rate;
+    speechInstance.pitch = options.pitch;
+    speechInstance.volume = options.volume/100;
+    speechInstance.voice = voices[options.voice];
+    speechInstance.gender = options.gender;
+    window.speechSynthesis.speak(speechInstance);
 }
 /**
  * 监听请求事件

@@ -1,3 +1,4 @@
+window.speechSynthesis.getVoices()
 document.addEventListener("keydown", function (e) {
     if (e.ctrlKey && e.keyCode === 88) {
         e.preventDefault();

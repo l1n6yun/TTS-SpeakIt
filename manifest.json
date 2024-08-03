@@ -2,7 +2,8 @@
   "manifest_version": 2,
   "name": "TTS SpeakIt",
   "description": "读累了吧？或者你在学一门语言？选择需要阅读的文字，让TTS SpeakIt来读给你听！",
-  "version": "0.0.1",
+  "version": "0.1.0",
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
   "browser_action": {
     "default_icon": "images/small_icon.png"
   },
