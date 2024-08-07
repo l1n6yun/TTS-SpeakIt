@@ -23,6 +23,7 @@ const app = Vue.createApp({
         }
 
         const test = () => {
+            window.speechSynthesis.cancel()
             const speechInstance = new window.SpeechSynthesisUtterance(form.test);
             speechInstance.rate = form.rate;
             speechInstance.pitch = form.pitch;
